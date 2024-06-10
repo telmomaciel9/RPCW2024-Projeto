@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentos</title>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+
+    <!-- DataTables JavaScript -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+
+    <style>
+        a {
+            color: inherit; /* Mantém a cor do texto padrão */
+            text-decoration: none; /* Remove a decoração sublinhada */
+        }
+
+        .dataTables_filter {
+            float: right;
+        }
+    </style>
+
+    <script>
+        $(document).ready(function() {
+            $('#tabela_documentos').DataTable({
+                "lengthMenu": [ [10, 25, 50, 100], [10, 25, 50, 100] ],
+                "pageLength": 10,
+                "initComplete": function () {
+
+                    // Adiciona um campo de pesquisa para cada coluna
+                    this.api().columns().every(function () {
+                        var column = this;
+                        var header = $(column.header()).text().trim();
+                        var input = $('<input type="text" placeholder="Filtrar ' + header + '">')
+                            .appendTo($(column.header()).empty())
+                            .on('click', function (e) {
+                                e.stopPropagation(); // Impede a propagação do evento de clique para as colunas
+                            })
+                            .on('keyup change', function () {
+                                column.search($(this).val(), false, false, true).draw();
+                            });
+                    });
+
+                }
+            });
+
+            $('#numero_entradas').change(function() {
+                window.location.href = "/documentos/pag=1&entradas_por_pagina=" + $(this).val();
+            });
+        });
+    </script>
+</head>
+<body>
+    {% include 'header.html' %}
+    
+    <h1>Documentos emitidos por: {{ emissor_nome }}</h1>
+
+    <table id="tabela_documentos" class="display">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tipo</th>
+                <th>Fonte</th>
+                <th>Data</th>
+                <th>Notas</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in dados %}
+                <tr>
+                    <td><a href="/documentos/{{ item['id']['value'] }}">{{ item['id']['value'] }}</a></td>
+                    <td><a href="/documentos/tipo/{{ item['tipo']['value'] }}">{{ item['tipo']['value'] }}</a></td>
+                    <td>{{ item['fonte']['value'] }}</td>
+                    <td>{{ item['data']['value'] }}</td>
+                    <td>{{ item['notas']['value'] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

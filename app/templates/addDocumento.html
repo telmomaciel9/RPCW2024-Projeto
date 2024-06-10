@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Novo Documento</title>
+    <style>
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .container h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 40px;
+        }
+
+        .container .form-input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        .container select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            background-color: #fff;
+            color: #555;
+        }
+
+        .container input[type="date"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            background-color: #fff;
+            color: #555;
+        }
+
+        .container .button {
+            display: inline-block;
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .container .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    {% include 'header.html' %}
+    <div class="container">
+        <h1>Adicionar Novo Documento</h1>
+        <form action="/addDocumento" method="POST" enctype="multipart/form-data">
+            <input type="text" name="id" id="id" class="form-input" required readonly value="{{ id }}">
+            <select name="emissor" class="form-input" required>
+                <option value="" disabled selected>Selecione o Emissor</option>
+                {% for emissor in emissores %}
+                <option value="{{ emissor }}">{{ emissor }}</option>
+                {% endfor %}
+            </select>
+            <select name="tipo" class="form-input" required>
+                <option value="" disabled selected>Selecione o Tipo</option>
+                {% for tipo in tipos %}
+                <option value="{{ tipo }}">{{ tipo }}</option>
+                {% endfor %}
+            </select>
+            <input type="text" name="data" id="data" class="form-input" required readonly>
+            <input type="text" name="notas" placeholder="Notas" class="form-input">
+            <input type="text" name="fonte" placeholder="Fonte" class="form-input">
+            <input type="text" name="numero" placeholder="Número" class="form-input">
+            <input type="text" name="numeroDR" placeholder="Número DR" class="form-input">
+            <input type="text" name="series" placeholder="Séries" class="form-input">
+            <input type="text" name="pdflink" placeholder="Link do PDF" class="form-input">
+            <!-- <input type="file" name="pdf" accept=".pdf" class="form-input">  -->
+            <button type="submit" class="button">Adicionar Documento</button>
+        </form>
+        <script>
+            // Obtenha o elemento de entrada de data pelo ID
+            var inputDate = document.getElementById('data');
+        
+            // Obtenha a data atual
+            var today = new Date();
+        
+            // Formate a data no formato AAAA-MM-DD
+            var formattedDate = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+        
+            // Defina o valor do campo de entrada de data
+            inputDate.value = formattedDate;
+        </script>
+    </div>
+</body>
+</html>

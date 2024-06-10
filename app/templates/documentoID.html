@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Documento {{ documento_id }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;  /* Increased maximum width for better display */
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .details-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .details-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .details-list li:last-child {
+            border-bottom: none;
+        }
+
+        .details-list span {
+            font-weight: bold;
+            color: #555;
+        }
+
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .pdf-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .pdf-container iframe {
+            width: 100%;
+            height: 800px;  /* Increased height */
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    {% include 'header.html' %}
+    <div class="container">
+        <h1>Detalhes do Documento {{ documento_id }}</h1>
+        <ul class="details-list">
+            <li><span>Tipo:</span> {{ dados.tipo.value }}</li>
+            <li><span>Emissores:</span> {{ dados.emissores.value }}</li>
+            <li><span>Notas:</span> {{ dados.notas.value }}</li>
+            <li><span>Data:</span> {{ dados.data.value }}</li>
+            <li><span>Fonte:</span> {{ dados.fonte.value }}</li>
+            <li><span>Número:</span> {{ dados.numero.value }}</li>
+            <li><span>Número DR:</span> {{ dados.numeroDR.value }}</li>
+            <li><span>Séries:</span> {{ dados.series.value }}</li>
+            {% if dados.pdflink.value %}
+                <li><span>PDF Link:</span> <a href="{{ dados.pdflink.value }}" target="_blank">Acessar PDF</a></li>
+            {% endif %}
+        </ul>
+        <div class="pdf-container">
+            <h1>PDF do documento</h1>
+            {% if dados.pdflink.value %}
+                <iframe src="{{ dados.pdflink.value }}"></iframe>
+            {% else %}
+                <p>Não há um PDF disponível para visualização.</p>
+            {% endif %}
+        </div>
+        
+    </div>
+</body>
+</html>
