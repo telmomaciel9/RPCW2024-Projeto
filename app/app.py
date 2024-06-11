@@ -352,5 +352,50 @@ INSERT DATA {{
 
     return render_template('addEmissor.html')
 
+
+@app.route('/documentos/search')
+def mostrar_criterio_procura():
+    criterio_procura = request.args.get('term', '').strip()
+    if not criterio_procura:
+        return "Erro: Nenhum critério de busca fornecido.", 400
+
+    criterio_procura = unquote(criterio_procura)
+    sparql_query = f"""
+PREFIX : <http://rpcw.di.uminho.pt/2024/DiarioRepublica/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?id ?tipo (GROUP_CONCAT(?emissor_nome; SEPARATOR=", ") AS ?emissores) ?fonte ?data ?notas
+WHERE {{
+  ?documento rdf:type :Documento ;
+             :data ?data ;
+             :tipo ?tipo ;
+             :éEmitidoPor ?emissor ;
+             :fonte ?fonte ;
+             :notas ?notas .
+  
+  ?emissor :nomeEmissor ?emissor_nome .
+  
+  FILTER(
+    CONTAINS(LCASE(STR(?tipo)), LCASE("{criterio_procura}")) || 
+    CONTAINS(LCASE(STR(?emissor_nome)), LCASE("{criterio_procura}")) || 
+    CONTAINS(LCASE(STR(?fonte)), LCASE("{criterio_procura}")) || 
+    CONTAINS(LCASE(STR(?data)), LCASE("{criterio_procura}")) || 
+    CONTAINS(LCASE(STR(?notas)), LCASE("{criterio_procura}"))
+  )
+
+  BIND(STRAFTER(str(?documento), "#") AS ?id_s)  
+  BIND(xsd:integer(?id_s) AS ?id)  
+}}
+GROUP BY ?id ?tipo ?fonte ?data ?notas
+ORDER BY ?id
+    """
+
+    resposta = requests.get(graphdb_endpoint, params={'query': sparql_query}, headers={'Accept': 'application/sparql-results+json'})
+
+    dados = resposta.json()['results']['bindings']
+
+    return render_template('filtered_documents.html', dados=dados, criterio_procura=criterio_procura)
+
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5001, debug=True)
