@@ -1,43 +1,16 @@
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diário da República - Cabeçalho</title>
-    <style>
-        /* Estilos para o logotipo no cabeçalho */
-        .header .logo {
-            display: block;
-            width: 200px; /* Ajuste o tamanho conforme necessário */
-            height: auto; /* Manter a proporção da imagem */
-        }
-        /* Estilos para o cabeçalho */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            background-color: #f0f0f0;
-        }
-        .header a {
-            text-decoration: none;
-            color: #333;
-            margin-right: 20px;
-        }
-    </style>
-</head>
-<body>
+
+
     <!-- Cabeçalho -->
     <div class="header">
         <!-- Logotipo do Diário da República -->
-        <a href="/"><img class="logo" src="{{ url_for('static', filename='DRE.png') }}" alt="Diário da República"></a>
+        <a href="/"><img class="logo" src="{{ url_for('static', filename='img/DRE.png') }}" alt="Diário da República"></a>
         <!-- Links de navegação -->
-        <div>
+        <div class="hearder-referencias">
             <a href="/" class="button">Página Inicial</a>
             <a href="/documentos" class="button">Documentos</a>
             <a href="/autores" class="button">Autores</a>
             <a href="/tipos" class="button">Tipos</a>
         </div>
     </div>
-</body>
-</html>
+
+
