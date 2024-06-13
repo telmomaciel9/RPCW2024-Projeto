@@ -219,7 +219,7 @@ def add_documento():
         if series == "":
             series = 1
         emissor = re.sub(r'\s+', '_', emissor)
-        emissor =  re.sub(r'[\n\r]+', '', emissor)
+        emissor = re.sub(r'[\n\r]+', '', emissor)
         emissor = emissor.replace(',','').replace('.','').replace('"', '').replace('(','').replace(')','').replace('º','').replace('ª','').replace('«','').replace('»','').replace("'","").replace('/','_').replace('–','').replace('%', 'Porcento').replace('_¿', '').replace('-_','').replace('°', '').replace('!', '').replace('?', '').replace('+', 'Mais').replace('[', '').replace(']', '').replace('_', '').replace('@', '_arroba_').replace('=', '_igual_a_').replace('´', '_').replace('&', 'E')
 
         query = f"""
