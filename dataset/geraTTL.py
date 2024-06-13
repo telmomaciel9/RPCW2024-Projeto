@@ -105,19 +105,17 @@ ttl = """
 
 # Open the output file
 output = open("DR_output.ttl", "w", encoding='utf-8')
-#output = open("output2.ttl", "w", encoding='utf-8')
 
 # Write the prefixes and ontology definitions to the output file
 output.write(ttl)
 
 idx=0
-for i in range(1, 21):
-    with open(f"docs/DRE_{i}.json", 'r', encoding='utf-8') as f:
-    #with open(f"exemplo.json", 'r', encoding='utf-8') as f:
-        bd = json.load(f)
-        print(f"Part {i} loaded")
 
-    for doc in bd:
+with open("DREdataset_clean.json", 'r', encoding='utf-8') as f:
+#with open(f"exemplo.json", 'r', encoding='utf-8') as f:
+    bd = json.load(f)
+
+for doc in bd:
         idx += 1
         emissores = []
         notas2 = re.sub(r'[\n\r]+', '', doc['notes'])
@@ -146,11 +144,11 @@ for i in range(1, 21):
             emissor_filtred = emissor_filtred.replace(',','').replace('.','').replace('"', '').replace('(','').replace(')','').replace('º','').replace('ª','').replace('«','').replace('»','').replace("'","").replace('/','_').replace('–','').replace('%', 'Porcento').replace('_¿', '').replace('-_','').replace('°', '').replace('!', '').replace('?', '').replace('+', 'Mais').replace('[', '').replace(']', '').replace('_', '').replace('@', '_arroba_').replace('=', '_igual_a_').replace('´', '_').replace('&', 'E')
             emissores.append(emissor_filtred)
             rdf2 += f"""
-###  http://rpcw.di.uminho.pt/2024/Diario_Replublica/{emissor_filtred}
+###  http://rpcw.di.uminho.pt/2024/DiarioReplublica#{emissor_filtred}
 :{emissor_filtred} rdf:type owl:NamedIndividual ,
                                 :Emissor ;
                  :nomeEmissor "{emissor.replace('"', '')}" ;
-                 :emitiu :{idx} .
+                 :emitiu <http://rpcw.di.uminho.pt/2024/DiarioReplublica#{idx}> .
 """
     
         for i, emissor in enumerate(emissores):
