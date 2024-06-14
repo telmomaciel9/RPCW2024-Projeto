@@ -60,8 +60,7 @@ WHERE {
   
   ?emissor :nomeEmissor ?emissor_nome .
   
-  BIND(STRAFTER(str(?documento), "#") AS ?id_s)  
-  BIND(xsd:integer(?id_s) AS ?id)  
+  BIND(xsd:integer(STRAFTER(str(?documento), "#")) AS ?id)
 }
 GROUP BY ?id ?tipo ?fonte ?data ?notas
 ORDER BY ?id
@@ -278,16 +277,16 @@ INSERT DATA {{
     """
 
     sparql_query_maxid = """
-    PREFIX : <http://rpcw.di.uminho.pt/2024/DiarioRepublica/>
-    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-    PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX : <http://rpcw.di.uminho.pt/2024/DiarioRepublica/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
-    SELECT (MAX(?id) as ?max_id)
-    WHERE {
-      ?documento rdf:type :Documento .
-       BIND(STRAFTER(str(?documento), "#") AS ?id_s)  
-          BIND(xsd:integer(?id_s) AS ?id) 
-    }
+SELECT (MAX(?id) as ?max_id)
+WHERE {
+  ?documento rdf:type :Documento .
+  BIND(xsd:integer(STRAFTER(str(?documento), "#")) AS ?id)
+}
+
     """
 
     try:
@@ -375,7 +374,7 @@ WHERE {{
              :notas ?notas .
   
   ?emissor :nomeEmissor ?emissor_nome .
-  
+
   FILTER(
     CONTAINS(LCASE(STR(?tipo)), LCASE("{criterio_procura}")) || 
     CONTAINS(LCASE(STR(?emissor_nome)), LCASE("{criterio_procura}")) || 
@@ -384,11 +383,11 @@ WHERE {{
     CONTAINS(LCASE(STR(?notas)), LCASE("{criterio_procura}"))
   )
 
-  BIND(STRAFTER(str(?documento), "#") AS ?id_s)  
-  BIND(xsd:integer(?id_s) AS ?id)  
+  BIND(xsd:integer(STRAFTER(str(?documento), "#")) AS ?id)
 }}
 GROUP BY ?id ?tipo ?fonte ?data ?notas
 ORDER BY ?id
+
     """
 
     resposta = requests.get(graphdb_endpoint, params={'query': sparql_query}, headers={'Accept': 'application/sparql-results+json'})
