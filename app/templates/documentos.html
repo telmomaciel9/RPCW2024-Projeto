@@ -42,15 +42,20 @@
         }
     </style>
 
-    <script>
-        $(document).ready(function() {
-            $('#tabela_documentos').DataTable({
-                "lengthMenu": [ [10, 25, 50, 100], [10, 25, 50, 100] ],
-                "pageLength": 10,
-                "initComplete": function () {
+<script>
+    $(document).ready(function() {
+        $('#tabela_documentos').DataTable({
+            "lengthMenu": [ [10, 25, 50, 100], [10, 25, 50, 100] ],
+            "pageLength": 10,
+            "columnDefs": [
+                { "orderable": false, "targets": -1 }, // Desativa a ordenação na última coluna
+                { "searchable": false, "targets": -1 } // Desativa a pesquisa na última coluna
+            ],
+            "initComplete": function () {
 
-                    // Adiciona um campo de pesquisa para cada coluna
-                    this.api().columns().every(function () {
+                // Adiciona um campo de pesquisa para cada coluna, exceto a última
+                this.api().columns().every(function (index) {
+                    if (index !== this.columns().count() - 1) { // Verifica se não é a última coluna
                         var column = this;
                         var header = $(column.header()).text().trim();
                         var input = $('<input type="text" placeholder="Filtrar ' + header + '">')
@@ -61,16 +66,18 @@
                             .on('keyup change', function () {
                                 column.search($(this).val(), false, false, true).draw();
                             });
-                    });
+                    }
+                });
 
-                }
-            });
-
-            $('#numero_entradas').change(function() {
-                window.location.href = "/documentos/pag=1&entradas_por_pagina=" + $(this).val();
-            });
+            }
         });
-    </script>
+
+        $('#numero_entradas').change(function() {
+            window.location.href = "/documentos/pag=1&entradas_por_pagina=" + $(this).val();
+        });
+    });
+</script>
+
 </head>
 <body>
     {% include 'header.html' %}
@@ -86,6 +93,7 @@
                 <th>Fonte</th>
                 <th>Data</th>
                 <th>Notas</th>
+                <th>Ações</th> <!-- Nova coluna para os botões -->
             </tr>
         </thead>
         <tbody>
@@ -101,6 +109,14 @@
                     <td>{{ item['fonte']['value'] }}</td>
                     <td>{{ item['data']['value'] }}</td>
                     <td>{{ item['notas']['value'] }}</td>
+                    <td>
+                        <form action="/documentos/edit/{{ item['id']['value'] }}" style="display:inline;">
+                            <button type="submit" class="btn btn-danger">Editar</button>
+                        </form>
+                        <form action="/documentos/delete/{{ item['id']['value'] }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>

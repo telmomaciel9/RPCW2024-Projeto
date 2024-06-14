@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    {% include 'layout.html' %}
+    <style>
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .container h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 16px;
+            color: #555;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            background-color: #fff;
+            color: #555;
+        }
+
+        .container .button {
+            display: inline-block;
+            width: 48%;
+            padding: 15px;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .container .button:hover {
+            background-color: #0056b3;
+        }
+
+        .container .button.cancel {
+            background-color: #dc3545;
+        }
+
+        .container .button.cancel:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    {% include 'header.html' %}
+    <div class="container">
+        <h1>Editar Documento</h1>
+        <form action="/documentos/update/{{ item['id']['value'] }}" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="id">ID *</label>
+                <input type="text" name="id" id="id" class="form-input" value="{{ item['id']['value'] }}" required readonly>
+            </div>
+            <div class="form-group">
+                <label for="emissor">Emissor *</label>
+                <select name="emissor" id="emissor" class="form-input" required>
+                    <option value="" disabled>Selecione o Emissor</option>
+                    {% for emissor in emissores %}
+                    <option value="{{ emissor }}" {% if emissor == item['emissores']['value'] %}selected{% endif %}>{{ emissor }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="tipo">Tipo *</label>
+                <select name="tipo" id="tipo" class="form-input" required>
+                    <option value="" disabled>Selecione o Tipo</option>
+                    {% for tipo in tipos %}
+                    <option value="{{ tipo }}" {% if tipo == item['tipo']['value'] %}selected{% endif %}>{{ tipo }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="data">Data *</label>
+                <input type="text" name="data" id="data" class="form-input" value="{{ item['data']['value'] }}" required readonly>
+            </div>
+            <div class="form-group">
+                <label for="notas">Notas *</label>
+                <input type="text" name="notas" id="notas" class="form-input" value="{{ item['notas']['value'] }}" required>
+            </div>
+            <div class="form-group">
+                <label for="fonte">Fonte (opcional)</label>
+                <input type="text" name="fonte" id="fonte" class="form-input" value="{{ item['fonte']['value'] }}">
+            </div>
+            <div class="form-group">
+                <label for="numero">Número (opcional)</label>
+                <input type="text" name="numero" id="numero" class="form-input" value="{{ item['numero']['value'] }}">
+            </div>
+            <div class="form-group">
+                <label for="numeroDR">Número DR (opcional)</label>
+                <input type="text" name="numeroDR" id="numeroDR" class="form-input" value="{{ item['numeroDR']['value'] }}">
+            </div>
+            <div class="form-group">
+                <label for="series">Séries (opcional)</label>
+                <input type="text" name="series" id="series" class="form-input" value="{{ item['series']['value'] }}">
+            </div>
+            <div class="form-group">
+                <label for="pdflink">Link do PDF (opcional)</label>
+                <input type="text" name="pdflink" id="pdflink" class="form-input" value="{{ item['pdflink']['value'] }}">
+            </div>
+            <div class="form-group" style="text-align: center;">
+                <button type="button" class="button cancel" onclick="window.history.back()">Voltar</button>
+                <button type="submit" class="button">Atualizar Documento</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

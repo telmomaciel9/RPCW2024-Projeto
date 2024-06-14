@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    {% include 'layout.html' %}
+    <title>Confirmar Eliminação</title>
+    <style>
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .container h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group button {
+            display: inline-block;
+            width: 48%;
+            padding: 15px;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .form-group button:hover {
+            background-color: #0056b3;
+        }
+
+        .form-group .cancel {
+            background-color: #dc3545;
+        }
+
+        .form-group .cancel:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    {% include 'header.html' %}
+    <div class="container">
+        <h1>Confirmar Eliminação</h1>
+        <p>Tem a certeza que deseja eliminar o documento com ID {{ item['id']['value'] }}?</p>
+        <form action="/confirm_delete/{{ item['id']['value'] }}" method="POST">
+            <div class="form-group">
+                <button type="button" class="cancel" onclick="window.history.back()">Cancelar</button>
+                <button type="submit">Eliminar</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
