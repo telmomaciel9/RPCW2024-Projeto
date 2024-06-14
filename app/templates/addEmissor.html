@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adicionar Novo Documento</title>
+    {% include 'layout.html' %}
+    <title>Adicionar Novo Emissor</title>
     <style>
         .container {
             max-width: 600px;
@@ -20,32 +19,20 @@
             margin-bottom: 40px;
         }
 
-        .container .form-input {
-            width: 100%;
-            padding: 10px;
+        .form-group {
             margin-bottom: 20px;
-            font-size: 16px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
         }
 
-        .container select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
             font-size: 16px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-            background-color: #fff;
             color: #555;
         }
 
-        .container input[type="date"] {
-            width: calc(100% - 22px);
+        .form-group input {
+            width: 100%;
             padding: 10px;
-            margin-bottom: 20px;
             font-size: 16px;
             border-radius: 5px;
             border: 1px solid #ccc;
@@ -79,7 +66,10 @@
     <div class="container">
         <h1>Adicionar Novo Emissor</h1>
         <form action="/addEmissor" method="POST" enctype="multipart/form-data">
-            <input type="text" name="emissor" placeholder="emissor" class="form-input" required>
+            <div class="form-group">
+                <label for="emissor">Emissor</label>
+                <input type="text" name="emissor" id="emissor" placeholder="Emissor" class="form-input" required>
+            </div>
             <button type="submit" class="button">Adicionar Emissor</button>
         </form>
     </div>

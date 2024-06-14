@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adicionar Novo Documento</title>
+    {% include 'layout.html' %}
     <style>
         .container {
             max-width: 600px;
@@ -20,32 +18,21 @@
             margin-bottom: 40px;
         }
 
-        .container .form-input {
-            width: 100%;
-            padding: 10px;
+        .form-group {
             margin-bottom: 20px;
-            font-size: 16px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
         }
 
-        .container select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
             font-size: 16px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-            background-color: #fff;
             color: #555;
         }
 
-        .container input[type="date"] {
-            width: calc(100% - 22px);
+        .form-group input,
+        .form-group select {
+            width: 100%;
             padding: 10px;
-            margin-bottom: 20px;
             font-size: 16px;
             border-radius: 5px;
             border: 1px solid #ccc;
@@ -79,27 +66,60 @@
     <div class="container">
         <h1>Adicionar Novo Documento</h1>
         <form action="/addDocumento" method="POST" enctype="multipart/form-data">
-            <input type="text" name="id" id="id" class="form-input" required readonly value="{{ id }}">
-            <select name="emissor" class="form-input" required>
-                <option value="" disabled selected>Selecione o Emissor</option>
-                {% for emissor in emissores %}
-                <option value="{{ emissor }}">{{ emissor }}</option>
-                {% endfor %}
-            </select>
-            <select name="tipo" class="form-input" required>
-                <option value="" disabled selected>Selecione o Tipo</option>
-                {% for tipo in tipos %}
-                <option value="{{ tipo }}">{{ tipo }}</option>
-                {% endfor %}
-            </select>
-            <input type="text" name="data" id="data" class="form-input" required readonly>
-            <input type="text" name="notas" placeholder="Notas" class="form-input">
-            <input type="text" name="fonte" placeholder="Fonte" class="form-input">
-            <input type="text" name="numero" placeholder="Número" class="form-input">
-            <input type="text" name="numeroDR" placeholder="Número DR" class="form-input">
-            <input type="text" name="series" placeholder="Séries" class="form-input">
-            <input type="text" name="pdflink" placeholder="Link do PDF" class="form-input">
-            <!-- <input type="file" name="pdf" accept=".pdf" class="form-input">  -->
+            <div class="form-group">
+                <label for="id">ID *</label>
+                <input type="text" name="id" id="id" class="form-input" required readonly value="{{ id }}">
+            </div>
+            <div class="form-group">
+                <label for="emissor">Emissor *</label>
+                <select name="emissor" id="emissor" class="form-input" required>
+                    <option value="" disabled selected>Selecione o Emissor</option>
+                    {% for emissor in emissores %}
+                    <option value="{{ emissor }}">{{ emissor }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="tipo">Tipo *</label>
+                <select name="tipo" id="tipo" class="form-input" required>
+                    <option value="" disabled selected>Selecione o Tipo</option>
+                    {% for tipo in tipos %}
+                    <option value="{{ tipo }}">{{ tipo }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="data">Data *</label>
+                <input type="text" name="data" id="data" class="form-input" required readonly>
+            </div>
+            <div class="form-group">
+                <label for="notas">Notas *</label>
+                <input type="text" name="notas" id="notas" placeholder="Notas" required class="form-input">
+            </div>
+            <div class="form-group">
+                <label for="fonte">Fonte (opcional)</label>
+                <input type="text" name="fonte" id="fonte" placeholder="Fonte" class="form-input">
+            </div>
+            <div class="form-group">
+                <label for="numero">Número (opcional)</label>
+                <input type="text" name="numero" id="numero" placeholder="Número" class="form-input">
+            </div>
+            <div class="form-group">
+                <label for="numeroDR">Número DR (opcional)</label>
+                <input type="text" name="numeroDR" id="numeroDR" placeholder="Número DR" class="form-input">
+            </div>
+            <div class="form-group">
+                <label for="series">Séries (opcional)</label>
+                <input type="text" name="series" id="series" placeholder="Séries" class="form-input">
+            </div>
+            <div class="form-group">
+                <label for="pdflink">Link do PDF (opcional)</label>
+                <input type="text" name="pdflink" id="pdflink" placeholder="Link do PDF" class="form-input">
+            </div>
+            <!-- <div class="form-group">
+                <label for="pdf">Arquivo PDF (opcional)</label>
+                <input type="file" name="pdf" id="pdf" accept=".pdf" class="form-input">
+            </div> -->
             <button type="submit" class="button">Adicionar Documento</button>
         </form>
         <script>

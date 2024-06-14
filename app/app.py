@@ -40,7 +40,7 @@ def mostrar_tipos():
         tipos = [tipo['tipo']['value'] for tipo in dados]
         return render_template('tipos.html', tipos=tipos)
     else:
-        return "Erro ao obter os autores."
+        return render_template('error.html')
 
 @app.route('/documentos')
 def mostrar_documentos_paginados():
@@ -172,7 +172,7 @@ def mostrar_documentos_por_emissor(emissor_nome):
         print(dados)
         return render_template('documentos_por_emissor.html', dados=dados, emissor_nome=emissor_nome)
     else:
-        return "Erro ao obter os dados do emissor."
+        return render_template('error.html')
 
 @app.route('/autores')
 def mostrar_autores():
@@ -196,7 +196,7 @@ def mostrar_autores():
         emissores = [emissor['emissor_nome']['value'] for emissor in dados]
         return render_template('autores.html', emissores=emissores)
     else:
-        return "Erro ao obter os autores."
+        return render_template('error.html')
 
 @app.route('/addDocumento', methods=['POST', 'GET'])
 def add_documento():
@@ -248,7 +248,7 @@ INSERT DATA {{
             sparql.query().convert()
             return render_template('confirmacaoDoc.html')
         except Exception as e:
-            return jsonify({"success": False, "message": " Documento não foi adicionado!"})
+            return render_template('error.html')
 
 
     # Consulta SPARQL para recuperar todos os tipos
@@ -346,7 +346,7 @@ INSERT DATA {{
             sparql.query().convert()
             return render_template('confirmacaoEmissor.html')
         except Exception as e:
-            return jsonify({"success": False, "message": " Emissor não foi adicionado!"})
+            return render_template('error.html')
 
 
     return render_template('addEmissor.html')

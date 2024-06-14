@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% include 'layout.html' %}
     <title>Documentos</title>
 
     <!-- jQuery -->
@@ -16,6 +14,13 @@
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
 
     <style>
+        h1 {
+            padding: 5px;
+        }
+
+        body::after {
+            background: whitesmoke;
+        }
         a {
             color: inherit; /* Mantém a cor do texto padrão */
             text-decoration: none; /* Remove a decoração sublinhada */
@@ -23,6 +28,17 @@
 
         .dataTables_filter {
             float: right;
+            margin-right: 20px;
+        }
+        .dataTables_length {
+            margin-left: 20px; /* Adjust this value to add space to the left */
+        }
+
+        .dataTables_wrapper .dataTables_filter input {
+            margin-left: 10px; /* Optional: add some space between label and input */
+        }
+        .dataTables_info {
+            margin-left: 20px; /* Adjust this value to add space to the left */
         }
     </style>
 
