@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "5001:5001"
+    environment:
+      - GRAPHDB_ENDPOINT=http://graphdb:7200
+    depends_on:
+      - graphdb
+    networks:
+      - my-network
+
+  graphdb:
+    image: khaller/graphdb-free
+    ports:
+      - "7200:7200"
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge

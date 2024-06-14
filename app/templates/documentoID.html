@@ -2,72 +2,14 @@
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styledoc.css') }}">
+    <link rel="icon" href="{{url_for('static', filename="img/favicon.png")}}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalhes do Documento {{ documento_id }}</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1200px;  /* Increased maximum width for better display */
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
-
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-
-        .details-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .details-list li {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .details-list li:last-child {
-            border-bottom: none;
-        }
-
-        .details-list span {
-            font-weight: bold;
-            color: #555;
-        }
-
-        a {
-            color: #0066cc;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        .pdf-container {
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .pdf-container iframe {
-            width: 100%;
-            height: 800px;  /* Increased height */
-            border: none;
-        }
-    </style>
 </head>
 <body>
     {% include 'header.html' %}

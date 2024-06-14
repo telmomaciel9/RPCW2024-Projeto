@@ -3,10 +3,13 @@ import requests
 from SPARQLWrapper import SPARQLWrapper, JSON
 from urllib.parse import unquote
 import re
+import os
 
 app = Flask(__name__)
 
-graphdb_endpoint = "http://localhost:7200/repositories/DRepublica"
+#graphdb_endpoint = "http://localhost:7200/repositories/DRepublica"
+graphdb_endpoint = "http://graphdb:7200/repositories/DRepublica"
+#graphdb_endpoint = os.getenv('GRAPHDB_ENDPOINT', 'http://localhost:7200/repositories/DRepublica')
 
 @app.route('/')
 def index():
@@ -40,6 +43,7 @@ def mostrar_tipos():
         dados = resposta.json()['results']['bindings']
         tipos = [tipo['tipo']['value'] for tipo in dados]
         return render_template('tipos.html', tipos=tipos)
+    
     else:
         return render_template('error.html')
 
